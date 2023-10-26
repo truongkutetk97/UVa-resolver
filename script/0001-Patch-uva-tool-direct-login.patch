@@ -1,12 +1,12 @@
-From dfc88013393fdbe99ed923c378dc689cb7fa280d Mon Sep 17 00:00:00 2001
+From f76ea361f4a526c22e592c3720ad15afafc67e47 Mon Sep 17 00:00:00 2001
 From: truongkutetk97 <lenhattruong.tk@gmail.com>
 Date: Thu, 26 Oct 2023 19:01:24 +0100
 Subject: [PATCH] Patch login directly
 
 ---
  install.sh       |  3 ---
- src/uva-tool.cpp | 30 +++++++++++++-----------------
- 2 files changed, 13 insertions(+), 20 deletions(-)
+ src/uva-tool.cpp | 27 ++++++++++-----------------
+ 2 files changed, 10 insertions(+), 20 deletions(-)
 
 diff --git a/install.sh b/install.sh
 index 0554c4e..f5df9da 100755
@@ -23,7 +23,7 @@ index 0554c4e..f5df9da 100755
  
  
 diff --git a/src/uva-tool.cpp b/src/uva-tool.cpp
-index 919451c..dc4f2b8 100644
+index 919451c..df13d32 100644
 --- a/src/uva-tool.cpp
 +++ b/src/uva-tool.cpp
 @@ -35,10 +35,9 @@ using namespace std;
@@ -77,15 +77,7 @@ index 919451c..dc4f2b8 100644
  
              if (data == "") {
                  cout << "Can not connect to onlinejudge.org\n";
-@@ -371,6 +365,7 @@ class submit {
- };
- 
- int main (int argc, char *argv[]) {
-+    printf("helloworld");
-     try {
-         if (argc == 6 && !strcmp (argv[1], "-hunt") && !strcmp (argv[2], "-u")
-             && !strcmp (argv[4], "-r") ) {
-@@ -380,10 +375,11 @@ int main (int argc, char *argv[]) {
+@@ -380,10 +374,9 @@ int main (int argc, char *argv[]) {
              submit sub;
              sub.problem_submit (argv[2], argv[3], argv[4]);
  
@@ -94,9 +86,7 @@ index 919451c..dc4f2b8 100644
              submit sub;
 -
 -            if (sub.login() ) {
-+            printf("try loging");
 +            if (sub.login(argv[2], argv[3]) ) {
-+                printf("loging done");
                  cout << "Logged in\n";
  
              } else cout << "Log in failed\n";
