@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-int main() {
+int main() {test
 	int TC;
 	int d, n, x, y, p;
 	int *killed[1024];
