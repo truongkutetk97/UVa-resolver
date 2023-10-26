@@ -31,4 +31,4 @@ jobs:
         export target_solution_path=$(<$CUR_DIR/TARGET_SOURCE_CONFIG)
         export problem_uva=$(grep -o '//[0-9]*' $CUR_DIR/$target_solution_path | awk -F'//' '{print $2}')
         
-        uva-tool -submit $problem_uva $target_solution_path 5
+        uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5
