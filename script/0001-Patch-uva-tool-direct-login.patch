@@ -1,0 +1,67 @@
+From c34dfd10d92ada84fad98c22d919f5a8e79a907c Mon Sep 17 00:00:00 2001
+From: truongkutetk97 <lenhattruong.tk@gmail.com>
+Date: Thu, 26 Oct 2023 19:01:24 +0100
+Subject: [PATCH] Patch login directly
+
+---
+ src/uva-tool.cpp | 21 ++++++++-------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
+
+diff --git a/src/uva-tool.cpp b/src/uva-tool.cpp
+index 919451c..5bb2a8e 100644
+--- a/src/uva-tool.cpp
++++ b/src/uva-tool.cpp
+@@ -259,7 +259,7 @@ class submit {
+         string cookie_jar = cookie_file;
+         string submitlink = "https://onlinejudge.org/index.php\
+ ?option=com_onlinejudge&Itemid=25&page=save_submission";
+-        string formdata() {
++        string formdata(string id, string pass) {
+             string cmd = curlfunc + " -f -L -s http://onlinejudge.org |";
+             cmd += " grep -B8 'id=\"mod_login_remember\"' | awk '{print $3 \" \" $4}'";
+             string str = system_exec (cmd.c_str() );
+@@ -296,14 +296,9 @@ class submit {
+             }
+ 
+             str.erase (str.find ("&&"), 2);
+-            string usr, pass, remember;
+-            cout << "Input username: ";
+-            cin >> usr;
+-            cout << "Input password: ";
+-            cin >> pass;
+-            cout << "Remember? [y/n] ";
+-            cin >> remember;
+-            remember = (remember == "y" or remember == "Y" ? "yes" : "no");
++            string usr, remember;
++            usr=id;
++            remember = "yes";
+             string usrpass = "username=" + usr + "&passwd=" + pass + \
+                              "&remember=" + remember + "&";
+             return usrpass + str;
+@@ -319,8 +314,8 @@ class submit {
+             return false;
+         }
+ 
+-        bool login() {
+-            string data = formdata();
++        bool login(string id, string pass) {
++            string data = formdata(id,pass);
+ 
+             if (data == "") {
+                 cout << "Can not connect to onlinejudge.org\n";
+@@ -380,10 +375,10 @@ int main (int argc, char *argv[]) {
+             submit sub;
+             sub.problem_submit (argv[2], argv[3], argv[4]);
+ 
+-        } else if (argc == 2 && !strcmp (argv[1], "-login") ) {
++        } else if (argc == 4 && !strcmp (argv[1], "-login") ) {
+             submit sub;
+ 
+-            if (sub.login() ) {
++            if (sub.login(argv[2], argv[3]) ) {
+                 cout << "Logged in\n";
+ 
+             } else cout << "Log in failed\n";
+-- 
+2.34.1
+
