@@ -30,4 +30,4 @@ jobs:
         echo "login using github action secret variable"
         echo $GITHUB_OJD_ID
         echo $GITHUB_OJD_PASSWD
-        uva-tool -login $GITHUB_OJD_ID $GITHUB_OJD_PASSWD
+        uva-tool -login ${{ secrets.OJD_ID }} ${{ secrets.OJD_PASSWD }}
