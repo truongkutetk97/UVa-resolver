@@ -1,19 +1,37 @@
-From 5d08d86e82ed830ddad13915ba25dad5bd120416 Mon Sep 17 00:00:00 2001
+From 80821b9b0269ef5b4d5e0cc99a4fed019130b40c Mon Sep 17 00:00:00 2001
 From: truongkutetk97 <lenhattruong.tk@gmail.com>
 Date: Thu, 26 Oct 2023 19:01:24 +0100
 Subject: [PATCH] Patch login directly
 
 ---
- src/uva-tool.cpp | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
+ install.sh       |  3 ---
+ src/uva-tool.cpp | 25 ++++++++++---------------
+ 2 files changed, 10 insertions(+), 18 deletions(-)
 
+diff --git a/install.sh b/install.sh
+index 0554c4e..f5df9da 100755
+--- a/install.sh
++++ b/install.sh
+@@ -2,9 +2,6 @@
+ 
+ #sed -i "38s/.*/\	const\ string\ szHome\ =\ ${1};/" src/uva-tool.cpp
+ g++ -g -Wall -Wextra -Wshadow -Wfloat-equal -pedantic -std=c++11 -O2 -Wformat=2 -Wconversion -lm -o uva-tool src/uva-tool.cpp
+-mkdir ~/.cache/uva-tool/
+ sudo mv uva-tool /usr/bin/
+-sudo mkdir /usr/share/uva-tool/
+-sudo cp pid-to-num.cvs /usr/share/uva-tool/
+ 
+ 
 diff --git a/src/uva-tool.cpp b/src/uva-tool.cpp
-index 919451c..7095747 100644
+index 919451c..15d0b84 100644
 --- a/src/uva-tool.cpp
 +++ b/src/uva-tool.cpp
-@@ -38,7 +38,7 @@ using json = nlohmann::json;
+@@ -36,9 +36,9 @@ using json = nlohmann::json;
+ 
+ #ifdef __linux__
      const string szHome = getlogin(); // szHome is loginusername in the system
-     const string pid_num_cvs = "/usr/share/uva-tool/pid-to-num.cvs";
+-    const string pid_num_cvs = "/usr/share/uva-tool/pid-to-num.cvs";
++    const string pid_num_cvs = "pid-to-num.cvs";
      const string cookie_file =
 -    "/home/" + szHome + "/.cache/uva-tool/uva.onlinejudge.org_cookie.txt";
 +    "uva.onlinejudge.org_cookie.txt";
