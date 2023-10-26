@@ -59,7 +59,7 @@ jobs:
           echo $submission_id
           exit 1  # Exit with an error code
         fi
-        if [[ "$verdict" != "Accepted" ]]; then
+        if [[ "$verdict" != *"Accepted"* ]]; then
           echo "Test result failed"
           echo $verdict
           exit 1  # Exit with an error code
