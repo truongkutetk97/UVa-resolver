@@ -35,5 +35,8 @@ jobs:
         export cmd_login="uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD"
         echo $cmd_login | sed 's/./& /g'
         uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD
-        export problem_uva=$(grep -o '//[0-9]*' $CUR_DIR/src/template.cpp | awk -F'//' '{print $2}')
-        uva-tool -submit $problem_uva $CUR_DIR/src/template.cpp 5
+        
+        export target_solution_path=$(<$CUR_DIR/TARGET_SOURCE_CONFIG)
+        export problem_uva=$(grep -o '//[0-9]*' $target_solution_path | awk -F'//' '{print $2}')
+        
+        uva-tool -submit $problem_uva $target_solution_path 5
