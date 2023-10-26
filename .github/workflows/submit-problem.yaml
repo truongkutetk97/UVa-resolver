@@ -27,3 +27,4 @@ jobs:
         curl google.com
         chmod +x install.sh 
         ./install.sh
+        uva-tool -login $GITHUB_OJD_ID $GITHUB_OJD_PASSWD
