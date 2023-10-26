@@ -1,0 +1,68 @@
+name: submit-problem
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+      SECRET_OJD_ID: ${{ secrets.SECRET_OJD_ID }}
+      SECRET_OJD_PASSWD: ${{ secrets.SECRET_OJD_PASSWD }}
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - run: echo "yocto minimal"
+    - uses: actions/checkout@v3
+    - name: Fetch dependency
+      run: sudo apt install build-essential
+    - name: Set build env
+      run: echo "CUR_DIR=$(pwd)" >> "$GITHUB_ENV"
+    - name: Clone toolchain
+      run: git clone https://github.com/arafat-hasan/uva-tool.git
+    - name: Patch toolchain
+      run: |
+        cd $CUR_DIR/uva-tool
+        git apply $CUR_DIR/script/0001-Patch-uva-tool-direct-login.patch
+        chmod +x install.sh 
+        ./install.sh
+        uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD
+        
+        export target_solution_path=$(<$CUR_DIR/TARGET_SOURCE_CONFIG)
+        export problem_uva=$(grep -o '//[0-9]*' $CUR_DIR/$target_solution_path | awk -F'//' '{print $2}')
+        
+        # uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5
+        submission_id=$( uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5 | grep -oE '[0-9]+')
+
+
+        max_iterations=10
+        for ((count=1; count<=max_iterations; count++)); do
+          result=$(uva-tool -hunt -u $SECRET_OJD_ID -r 1)
+          sub_id=$(echo "$result" | awk 'NR==1')
+          verdict=$(echo "$result" | awk 'NR==2')
+  
+          echo "Sub ID: $sub_id"
+          echo "Verdict: $verdict"
+          if [[ "$verdict" != *"In queue"* ]]; then
+            echo "Condition matched. Breaking the loop."
+            break
+          fi
+          
+          sleep 1  # Sleep for 1 second between iterations
+        done        
+        
+
+
+        if [ "$sub_id" != "$submission_id" ]; then
+          echo "Sub ID is not equal to 'SUB'."
+          echo $sub_id
+          echo $submission_id
+          exit 1  # Exit with an error code
+        fi
+        if [[ "$verdict" != *"Accepted"* ]]; then
+          echo "Test result failed"
+          echo $verdict
+          exit 1  # Exit with an error code
+        fi
+
+
