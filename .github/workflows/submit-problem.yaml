@@ -33,5 +33,20 @@ jobs:
         
         # uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5
         submission_id=$( uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5 | grep -oE '[0-9]+')
-        echo $submission_id
+        result=$( uva-tool -hunt -u  $SECRET_OJD_ID -r 1)
+        sub_id=$(echo "$result" | awk 'NR==1')
+        verdict=$(echo "$result" | awk 'NR==2')
+
+        echo "Sub ID: $sub_id"
+        echo "Verdict: $verdict"
+
+        if [ "$sub_id" != "submission_id" ]; then
+          echo "Sub ID is not equal to 'SUB'."
+          exit 1  # Exit with an error code
+        fi
+        if [ "$verdict" != "Accepted" ]; then
+          echo "Test result failed"
+          exit 1  # Exit with an error code
+        fi
+
 
