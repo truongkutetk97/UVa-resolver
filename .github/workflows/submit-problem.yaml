@@ -61,6 +61,7 @@ jobs:
         fi
         if [ "$verdict" != "Accepted" ]; then
           echo "Test result failed"
+          echo $verdict
           exit 1  # Exit with an error code
         fi
 
