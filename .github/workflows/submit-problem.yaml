@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "main" ]
 env:
-      SECRET_OJD_ID: ${{ secrets.OJD_ID }}
-      SECRET_OJD_PASSWD: ${{ secrets.OJD_PASSWD }}
+      SECRET_OJD_ID: ${{ secrets.SECRET_OJD_ID }}
+      SECRET_OJD_PASSWD: ${{ secrets.SECRET_OJD_PASSWD }}
 jobs:
   build:
     runs-on: ubuntu-20.04
