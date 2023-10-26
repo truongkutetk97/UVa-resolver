@@ -1,16 +1,25 @@
-From c34dfd10d92ada84fad98c22d919f5a8e79a907c Mon Sep 17 00:00:00 2001
+From 5d08d86e82ed830ddad13915ba25dad5bd120416 Mon Sep 17 00:00:00 2001
 From: truongkutetk97 <lenhattruong.tk@gmail.com>
 Date: Thu, 26 Oct 2023 19:01:24 +0100
 Subject: [PATCH] Patch login directly
 
 ---
- src/uva-tool.cpp | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ src/uva-tool.cpp | 23 +++++++++--------------
+ 1 file changed, 9 insertions(+), 14 deletions(-)
 
 diff --git a/src/uva-tool.cpp b/src/uva-tool.cpp
-index 919451c..5bb2a8e 100644
+index 919451c..7095747 100644
 --- a/src/uva-tool.cpp
 +++ b/src/uva-tool.cpp
+@@ -38,7 +38,7 @@ using json = nlohmann::json;
+     const string szHome = getlogin(); // szHome is loginusername in the system
+     const string pid_num_cvs = "/usr/share/uva-tool/pid-to-num.cvs";
+     const string cookie_file =
+-    "/home/" + szHome + "/.cache/uva-tool/uva.onlinejudge.org_cookie.txt";
++    "uva.onlinejudge.org_cookie.txt";
+     //const string err = " 2> ~/.uva-tool/err.log";
+     const string err = " 2> /dev/null";
+     const string curlfunc = "curl";
 @@ -259,7 +259,7 @@ class submit {
          string cookie_jar = cookie_file;
          string submitlink = "https://onlinejudge.org/index.php\
