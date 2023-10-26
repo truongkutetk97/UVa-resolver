@@ -1,12 +1,12 @@
-From 80821b9b0269ef5b4d5e0cc99a4fed019130b40c Mon Sep 17 00:00:00 2001
+From 97d170dbefaf0d964bb4dfa414b59016cd32de1b Mon Sep 17 00:00:00 2001
 From: truongkutetk97 <lenhattruong.tk@gmail.com>
 Date: Thu, 26 Oct 2023 19:01:24 +0100
 Subject: [PATCH] Patch login directly
 
 ---
  install.sh       |  3 ---
- src/uva-tool.cpp | 25 ++++++++++---------------
- 2 files changed, 10 insertions(+), 18 deletions(-)
+ src/uva-tool.cpp | 29 +++++++++++++----------------
+ 2 files changed, 13 insertions(+), 19 deletions(-)
 
 diff --git a/install.sh b/install.sh
 index 0554c4e..f5df9da 100755
@@ -23,7 +23,7 @@ index 0554c4e..f5df9da 100755
  
  
 diff --git a/src/uva-tool.cpp b/src/uva-tool.cpp
-index 919451c..15d0b84 100644
+index 919451c..4d3e853 100644
 --- a/src/uva-tool.cpp
 +++ b/src/uva-tool.cpp
 @@ -36,9 +36,9 @@ using json = nlohmann::json;
@@ -76,16 +76,26 @@ index 919451c..15d0b84 100644
  
              if (data == "") {
                  cout << "Can not connect to onlinejudge.org\n";
-@@ -380,10 +375,10 @@ int main (int argc, char *argv[]) {
+@@ -371,6 +366,7 @@ class submit {
+ };
+ 
+ int main (int argc, char *argv[]) {
++    printf("helloworld");
+     try {
+         if (argc == 6 && !strcmp (argv[1], "-hunt") && !strcmp (argv[2], "-u")
+             && !strcmp (argv[4], "-r") ) {
+@@ -380,10 +376,11 @@ int main (int argc, char *argv[]) {
              submit sub;
              sub.problem_submit (argv[2], argv[3], argv[4]);
  
 -        } else if (argc == 2 && !strcmp (argv[1], "-login") ) {
 +        } else if (argc == 4 && !strcmp (argv[1], "-login") ) {
              submit sub;
- 
+-
 -            if (sub.login() ) {
++            printf("try loging");
 +            if (sub.login(argv[2], argv[3]) ) {
++                printf("loging done");
                  cout << "Logged in\n";
  
              } else cout << "Log in failed\n";
