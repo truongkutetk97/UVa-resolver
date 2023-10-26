@@ -33,12 +33,25 @@ jobs:
         
         # uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5
         submission_id=$( uva-tool -submit $problem_uva $CUR_DIR/$target_solution_path 5 | grep -oE '[0-9]+')
-        result=$( uva-tool -hunt -u  $SECRET_OJD_ID -r 1)
-        sub_id=$(echo "$result" | awk 'NR==1')
-        verdict=$(echo "$result" | awk 'NR==2')
 
-        echo "Sub ID: $sub_id"
-        echo "Verdict: $verdict"
+
+        max_iterations=10
+        for ((count=1; count<=max_iterations; count++)); do
+          result=$(uva-tool -hunt -u $SECRET_OJD_ID -r 1)
+          sub_id=$(echo "$result" | awk 'NR==1')
+          verdict=$(echo "$result" | awk 'NR==2')
+  
+          echo "Sub ID: $sub_id"
+          echo "Verdict: $verdict"
+          if [[ "$verdict" != *"In queue"* ]]; then
+            echo "Condition matched. Breaking the loop."
+            break
+          fi
+          
+          sleep 1  # Sleep for 1 second between iterations
+        done        
+        
+
 
         if [ "$sub_id" != "submission_id" ]; then
           echo "Sub ID is not equal to 'SUB'."
