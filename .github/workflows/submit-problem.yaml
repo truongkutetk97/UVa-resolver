@@ -22,21 +22,13 @@ jobs:
       run: git clone https://github.com/arafat-hasan/uva-tool.git
     - name: Patch toolchain
       run: |
-        pwd
-        ls -al
         cd $CUR_DIR/uva-tool
         git apply $CUR_DIR/script/0001-Patch-uva-tool-direct-login.patch
-        curl google.com
         chmod +x install.sh 
         ./install.sh
-        echo "login using github action secret variable"
-        echo  $SECRET_OJD_ID
-        echo  $SECRET_OJD_PASSWD
-        export cmd_login="uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD"
-        echo $cmd_login | sed 's/./& /g'
         uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD
         
         export target_solution_path=$(<$CUR_DIR/TARGET_SOURCE_CONFIG)
-        export problem_uva=$(grep -o '//[0-9]*' $target_solution_path | awk -F'//' '{print $2}')
+        export problem_uva=$(grep -o '//[0-9]*' $CUR_DIR/$target_solution_path | awk -F'//' '{print $2}')
         
         uva-tool -submit $problem_uva $target_solution_path 5
