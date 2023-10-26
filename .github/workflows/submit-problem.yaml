@@ -53,8 +53,10 @@ jobs:
         
 
 
-        if [ "$sub_id" != "submission_id" ]; then
+        if [ "$sub_id" != "$submission_id" ]; then
           echo "Sub ID is not equal to 'SUB'."
+          echo $sub_id
+          echo $submission_id
           exit 1  # Exit with an error code
         fi
         if [ "$verdict" != "Accepted" ]; then
