@@ -35,3 +35,4 @@ jobs:
         export cmd_login="uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD"
         echo $cmd_login | sed 's/./& /g'
         uva-tool -login $SECRET_OJD_ID $SECRET_OJD_PASSWD
+        uva-tool -submit 10360 $CUR_DIR/src/template.cpp 5
