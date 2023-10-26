@@ -23,3 +23,7 @@ jobs:
         pwd
         ls -al
         cd $CUR_DIR/uva-tool
+        git apply $CUR_DIR/0001-Patch-uva-tool-direct-login.patch
+        curl google.com
+        chmod +x install.sh 
+        ./install.sh
