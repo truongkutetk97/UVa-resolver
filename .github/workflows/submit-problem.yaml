@@ -1,0 +1,25 @@
+name: submit-problem
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - run: echo "yocto minimal"
+    - uses: actions/checkout@v3
+    - name: Fetch dependency
+      run: sudo apt install build-essential chrpath gawk git bmap-tools texinfo diffstat tree zstd liblz4-tool chrpath diffstat
+    - name: Set build env
+      run: echo "CUR_DIR=$(pwd)" >> "$GITHUB_ENV"
+    - name: Clone toolchain
+      run: git clone https://github.com/arafat-hasan/uva-tool.git
+    - name: Patch toolchain
+      run: |
+        pwd
+        ls -al
+        cd $CUR_DIR/uva-tool
